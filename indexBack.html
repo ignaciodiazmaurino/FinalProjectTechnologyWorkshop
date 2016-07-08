@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>La Cabaña</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/defaultStyles.css">
+</head>
+<body>
+	<header>
+		<div class="container-full row">
+			<!-- Logo header -->
+			<div id="headerLogo" class="col-sm-6 col-md-2">
+				<img src="images/logoHeader.png" class="img-responsive" alt="logo">
+			</div>
+
+			<!-- Title header -->
+			<div id="headerCentralSection" class="col-xs-12 col-sm-6 col-md-8 text-centered"><h1>Establecimiento <strong>La Cabaña</strong></h1></div>
+
+			<!-- Login header-->
+			<div id="headerLoginSection" class="col-xs-12 col-sm-6 col-md-2">
+				<div id="login" class="headerlogin text-centered"><span id="idRegistrarse">Registrarse</span> | <span id="idEntrar">Entrar</span></div>
+			</div>
+		</div>
+	</header>
+	<nav class="navbar navbar-inverse menuStyle">
+		<div class="container">
+			<div id="menuBar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="cabins.html">Cabañas</a></li>
+					<li><a href="newReservation.html">Hacer una reserva</a></li>
+					<li><a href="reservations.html">Listado de reservas</a></li>
+					<li><a href="searchReservation.html">Buscar reserva</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a href="myProfile.html">Mi perfil</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<div class ="containerMainSection">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<img src="images/cabin1.jpg" class="img-responsive" alt="Cabaña">
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6">
+					<p><h3>Bienvenido a Establecimiento La Cabaña</h3><br>
+Contamos con amplios espacios verdes donde cada cabaña tiene identidad propia, conservando el estilo y personalidad del complejo. Rodeadas por un fantástico bosque de pinos, ofreciendo privacidad y confort, creando un espacio único para contemplar el ambiente con su tranquilidad y calidez familiar. Nuestras cabañas cuentan con todo lo necesario para hacer de su estadía un momento inolvidable. Muebles estilo campo, parrilla, piscina. <br>
+Sarasa sarasa sarasa
+					</p>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	<footer class="containerFooter footer-stile">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-sm-6 col-md-6 footerContent">
+					<address>
+						Av. costanera KM. 2.3 <br>
+						Villa Gesell, Buenos Aires, Argentina.<br>
+						Tel: +54 234 352-3213
+					</address>
+				</div>
+				<div class="col-xs-12 col-sm-6 col-md-6 footerContent">
+				</div>
+			</div>
+		</div>
+	</footer>
+
+	<div id="modalLogin" class="modalLoginBackGround">
+		<div>
+			<span id="closeLogin" class="close">X</span>
+			<!--<h3>Entrar</h3> -->
+			<form>
+				<div class="form-group">
+					<label for="userLoginForm">Usuario</label>
+					<input type="text" class="form-control" id="userLoginForm" placeholder="Usuario">
+					<div id="userError" class="errorMessage"></div>
+				</div>
+				<div class="form-group">
+					<label for="passwordLoginForm">Contraseña</label>
+					<input type="password" class="form-control" id="passwordLoginForm" placeholder="Contraseña">
+					<div id="passError" class="errorMessage"></div>
+				</div>
+				<div  class="form-group">
+					<button id="submitLogin" type="submit" class="btn defaultButton widthAll">Entrar</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<script src="js/jquery-1.12.3.js"></script>
+	<script src="js/jquery.la_cabana_plugin.js"></script>
+	<script src="js/defaultBehavior.js"></script>
+</body>
+</html>
