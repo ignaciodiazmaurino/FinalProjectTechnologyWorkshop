@@ -1,0 +1,5 @@
+CREATE TABLE amenities {
+	amenitie_id INT(3) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
+	amenitie_cabin_id INT(3) UNSIGNED ZEROFILL NOT NULL,
+	amenitie_text VARCHAR(15) NOT NULL
+}
