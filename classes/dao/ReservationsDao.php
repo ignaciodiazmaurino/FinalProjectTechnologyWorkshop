@@ -8,6 +8,8 @@ interface ReservationsDao {
 
 	public function getReservation($reservationID);
 
+	public function getReservations();
+
 	public function updateReservation($data);
 
 	public function deleteReservation($reservationID);
