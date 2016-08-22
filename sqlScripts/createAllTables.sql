@@ -6,3 +6,4 @@ SOURCE /opt/lampp/htdocs/FinalProjectTechnologyWorkshop/sqlScripts/createTableCa
 SOURCE /opt/lampp/htdocs/FinalProjectTechnologyWorkshop/sqlScripts/createTableImages.sql;
 SOURCE /opt/lampp/htdocs/FinalProjectTechnologyWorkshop/sqlScripts/createTableAmenities.sql;
 SOURCE /opt/lampp/htdocs/FinalProjectTechnologyWorkshop/sqlScripts/createTableReservations.sql;
+SOURCE /opt/lampp/htdocs/FinalProjectTechnologyWorkshop/sqlScripts/createTableThumbnails.sql;
