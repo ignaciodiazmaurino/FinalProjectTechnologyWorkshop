@@ -3,7 +3,7 @@
 * Login controller class
 */
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/page/classes/dao/impl/CabinsDaoImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/impl/CabinsDaoImpl.php');
 
 class CabinsController {
 

@@ -11,6 +11,7 @@
 	$cabins = $controller->getCabins();
 
 	foreach ($cabins as $key => $cabin) {
+
 		echo '
 			<div class="row cabinRow">
 				<div class="col-xs-12 col-sm-12 col-md-12">
