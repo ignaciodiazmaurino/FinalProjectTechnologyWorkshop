@@ -16,7 +16,7 @@
 				</div>
 				<div class="col-xs-12 col-sm-6 col-md-6">
 					<div class="form-group">
-						<label for="nameInput">Apellido</label>
+						<label for="lastNameInput">Apellido</label>
 						<input type="text" class="form-control" id="lastNameInput">
 					</div>
 				</div>
@@ -40,8 +40,8 @@
 				</div>
 				<div class="col-xs-12 col-sm-12 col-md-12">
 					<div class="form-group">
-						<label for="guestPassword">Confirmar contraseña</label>
-						<input type="password" class="form-control" id="guestPassword">
+						<label for="guestPasswordToValidate">Confirmar contraseña</label>
+						<input type="password" class="form-control" id="guestPasswordToValidate">
 					</div>
 				</div>
 				<div  class="col-xs-12 col-sm-12 col-md-12">
@@ -49,5 +49,15 @@
 				</div>
 			</div>
 		</form>
+	</div>
+</div>
+
+<!-- new user confirmation popup -->
+<div id="modalNewUserConfirmation" class="modalBackGround">
+	<div>
+		<span id="closeModalNewUser" class="close">X</span>
+			<div id="modalMessage">
+				
+			</div>
 	</div>
 </div>

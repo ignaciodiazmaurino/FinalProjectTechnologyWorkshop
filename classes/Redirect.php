@@ -102,7 +102,7 @@ class Redirect {
 		$newUserPage->setTitle('La Cabaña');
 		$newUserPage->setPageBody('newUser');
 		$newUserPage->setMenuOptions($menuOptions);
-		$scripts = Array();
+		$scripts = Array('formUserValidator');
 		$newUserPage->setScripts($scripts);
 		$styles = Array();
 		$newUserPage->setStyles($styles);
