@@ -5,6 +5,7 @@
 */
 abstract class Person implements JsonSerializable{
 
+	protected $id;
 	protected $name;
 	protected $lastName;
 	protected $role;
@@ -40,5 +41,13 @@ abstract class Person implements JsonSerializable{
 
 	public function getPassword() {
 		return $this->password;
+	}
+
+	public function setId($newId) {
+		$this->id = $newId;
+	}
+
+	public function getId() {
+		return $this->id;
 	}
 }

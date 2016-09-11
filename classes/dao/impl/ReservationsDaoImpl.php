@@ -28,6 +28,10 @@ class ReservationsDaoImpl implements ReservationsDao {
 
 	}
 
+	public function getReservations() {
+
+	}
+
 	public function updateReservation($data) {
 
 	}

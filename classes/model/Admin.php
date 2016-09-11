@@ -13,8 +13,7 @@ class Admin extends Person implements JsonSerializable {
 		$this->adminId = $newAdminId;
 	}
 
-	public function JsonSerialize()
-    {
+	public function JsonSerialize() {
         $vars = get_object_vars($this);
         unset($vars['password']);
 
