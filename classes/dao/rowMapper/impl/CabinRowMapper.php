@@ -15,7 +15,6 @@ class CabinRowMapper implements RowMapper
 		$cabin->setName($row{'CABIN_NAME'});
 		$cabin->setDescription($row{'CABIN_DESCRIPTION'});
 		$cabin->setMaxPeople($row{'CABIN_MAX_OCCUPANCY'});
-
 		return $cabin;
 	}
 	

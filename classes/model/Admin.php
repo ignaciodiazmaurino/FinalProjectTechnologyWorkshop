@@ -12,6 +12,9 @@ class Admin extends Person implements JsonSerializable {
 	public function setAdminId($newAdminId) {
 		$this->adminId = $newAdminId;
 	}
+	public function getAdminId() {
+		return $this->adminId;
+	}
 
 	public function JsonSerialize() {
         $vars = get_object_vars($this);

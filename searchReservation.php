@@ -8,7 +8,9 @@
 				 <label for="searchReservationInput">Número de reserva</label>
 				 <input type="text" class="form-control" id="searchReservationInput" placeholder="ej: CRD740">
 			</div>
-			<button type="submit" class="btn defaultButton">Buscar</button>
+			<button id="findReservationId" type="submit" class="btn defaultButton">Buscar</button>
+			<div id="reservationResults">
+			</div>
 		</form>
 	</div>
 </div>

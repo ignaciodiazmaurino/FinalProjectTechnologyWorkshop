@@ -84,7 +84,7 @@ class Redirect {
 		$findReservationPage->setTitle('La Cabaña');
 		$findReservationPage->setPageBody('searchReservation');
 		$findReservationPage->setMenuOptions($menuOptions);
-		$scripts = Array();
+		$scripts = Array('findReservation');
 		$findReservationPage->setScripts($scripts);
 		$styles = Array();
 		$findReservationPage->setStyles($styles);

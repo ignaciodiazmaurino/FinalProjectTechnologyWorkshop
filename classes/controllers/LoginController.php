@@ -3,7 +3,7 @@
 * Login controller class
 */
 
-require_once('../dao/impl/UserDaoImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/impl/UserDaoImpl.php');
 
 class LoginController {
 

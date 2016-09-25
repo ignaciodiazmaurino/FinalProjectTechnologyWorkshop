@@ -6,7 +6,7 @@
 class DataBaseConnector {
 
 	function executeQuery($query) {
-
+		error_log($query);
 		$properties = parse_ini_file($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/properties/database.ini');
 
 		$hostname=$properties['hostname'];

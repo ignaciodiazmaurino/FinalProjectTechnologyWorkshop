@@ -1,4 +1,4 @@
-$(document).ready(function(){
+$(document).ready(function(event){
 
 	internalFunctions = {
 		getCabinById : function() {
@@ -49,9 +49,18 @@ $(document).ready(function(){
 					email: email,
 					details: details
 				}
-			}).success(function() {
-				$(this).openModalCustom("#modalNewReservation");
-				$('#modalMessage').append('<p>La reserva se creo correctamente</p>');
+			}).success(function(data) {
+				var response = JSON.parse(data);
+				switch (response.code) {
+					case '201':
+						$(this).openModalCustom("#modalNewReservation");
+						$('#modalMessage').append('<p>La reserva se creo correctamente</p>');
+						break;
+					case '407':
+						$(this).openModalCustom("#modalNewReservation");
+						$('#modalMessage').append('<p>Para poder hacer una reserva,<br>el usuario debe estar logeado</p>');
+						break;
+				}
 			}).fail(function(){
 				$(this).openModalCustom("#modalNewReservation");
 				$('#modalMessage').append('<p>Hubo un problema al realizar la solicitud. Por favor intente más tarde</p>');
@@ -73,10 +82,11 @@ $(document).ready(function(){
 	$('#cabinDropdownMenu').click(function(){
 		internalFunctions.getCabinById();
 	});
-	$("#submitReservation").click(function(){
+	$("#submitReservation").click(function(event){
 		//TODO: Validar password e email.
 		var resultValue = $(this).validateForm($("#newReservationForm"));
 		if (resultValue) {
+			event.preventDefault();
 			internalFunctions.createReservation();
 			return false;
 		} else {

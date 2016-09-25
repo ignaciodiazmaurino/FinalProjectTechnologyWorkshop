@@ -1,8 +1,9 @@
 <?php
-class Reservation {
+class Reservation  implements JsonSerializable {
 
 	private $reservationId;
-	private $user;
+	private $guestId;
+	private $userId;
 	private $arrivalDate;
 	private $departureDate;
 	private $numberOfPeople;
@@ -10,6 +11,7 @@ class Reservation {
 	private $address;
 	private $emailAddress;
 	private $details;
+	private $status;
 
 	public function setReservationId($newReservationId) {
 		$this->reservationId = $newReservationId;
@@ -18,11 +20,18 @@ class Reservation {
 		return $this->reservationId;
 	}
 
-	public function setUser($newUser) {
-		$this->user = $newUser;
+	public function setGuestId($newGuestId) {
+		$this->guestId = $newGuestId;
 	}
-	public function getUser() {
-		return $this->user;
+	public function getGuestId() {
+		return $this->guestId;
+	}
+
+	public function setUserId($newUserId) {
+		$this->userId = $newUserId;
+	}
+	public function getUserId() {
+		return $this->userId;
 	}
 
 	public function setArrivalDate($newArrivalDate) {
@@ -74,4 +83,15 @@ class Reservation {
 		return $this->details;
 	}
 
+	public function setStatus($newStatus) {
+		$this->status = $newStatus;
+	}
+	public function getStatus() {
+		return $this->status;
+	}
+
+	public function JsonSerialize() {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 }
