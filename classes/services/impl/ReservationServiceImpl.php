@@ -93,7 +93,30 @@ class ReservationServiceImpl implements ReservationService {
 	}
 
 	public function getReservations($user) {
+		
+		$response = array();
+		$reservations = array();
 
+		switch ($user->getRole()) {
+			case ReservationConstants::ADMIN:
+				$reservations = $this->getDao()->getReservations();
+				break;
+			
+			default:
+				$reservations = $this->getDao()->getReservationsByUserId($user->getId());
+				break;
+		}
+
+		if (count($reservations) == 0) {
+			$response['code'] = ReservationConstants::RESPONSE_204;
+			$response['mseeage'] = 'No resources found';
+		} else {
+			$cabins = $this->getCabinDao()->getCabinsFromBackend();
+			$response['reservations'] = $reservations;
+			$response['cabins'] = $cabins;
+			$response['code'] = ReservationConstants::RESPONSE_202;
+		}
+		return $response;
 	}
 
 	public function setDao($newDao) {

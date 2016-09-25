@@ -14,4 +14,6 @@ interface ReservationsDao {
 
 	public function deleteReservation($reservationId);
 
+	public function getReservationsByUserId($userId);
+
 }

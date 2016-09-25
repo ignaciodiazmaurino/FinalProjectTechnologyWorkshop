@@ -27,7 +27,8 @@ class ReservationsDaoImpl implements ReservationsDao {
 									  	RESERVATION_GUEST_ADDRESS, RESERVATION_QUANTITY, 
 									  	RESERVATION_DETAILS 
 								   FROM RESERVATIONS ';
-	const WHERE_RESERVATION_ID = ' WHERE RESERVATION_ID=:reservationId';
+	const BY_ID = ' WHERE RESERVATION_ID=:reservationId';
+	const BY_USERID = ' WHERE RESERVATION_GUEST_ID=:userId';
 
 	private $dataBaseConnector;
 
@@ -85,7 +86,7 @@ class ReservationsDaoImpl implements ReservationsDao {
 		$result = $this->dataBaseConnector->executeQuery(
 			SQLUtils::buildSqlStatement(
 				self::SELECT_RESERVATIONS.
-				self::WHERE_RESERVATION_ID, 
+				self::BY_ID, 
 				$keys, $parameters
 			)
 		);
@@ -102,6 +103,30 @@ class ReservationsDaoImpl implements ReservationsDao {
 		$reservations = array();
 		$rowMapper = new ReservationRowMapper();
 		$result = $this->dataBaseConnector->executeQuery(self::SELECT_RESERVATIONS);
+
+		while ($row = $result->fetch_assoc()) {
+			$reservation = $rowMapper->map($row);
+			
+			$reservations[$reservation->getReservationId()] = $reservation;
+		} 
+
+		return $reservations;
+	}
+
+	public function getReservationsByUserId($userId) {
+		$reservations = array();
+		$rowMapper = new ReservationRowMapper();
+
+		$parameters = array($userId);
+		$keys = array(":userId");
+		
+		$result = $this->dataBaseConnector->executeQuery(
+				SQLUtils::buildSqlStatement(
+					self::SELECT_RESERVATIONS.
+					self::BY_USERID, 
+					$keys, $parameters
+				)
+			);
 
 		while ($row = $result->fetch_assoc()) {
 			$reservation = $rowMapper->map($row);

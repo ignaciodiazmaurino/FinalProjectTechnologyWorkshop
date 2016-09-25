@@ -44,15 +44,17 @@ class ReservationController {
 	}
 
 	/**
-	* Read reservation
+	* Return all reservations
 	*/
 	public function getAllReservations() {
+
+		$user = $_SESSION['user'];
+		return $this->getReservationService()->getReservations($user);
 
 	}
 	public function getReservation () {
 
 		$reservationId = $_POST['reservationId'];
-		error_log($reservationId);
 		return $this->getReservationService()->getReservation($reservationId);
 
 	}
