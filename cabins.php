@@ -18,7 +18,8 @@
 					<div class="row">
 						<div class="col-xs-12 col-sm-4 col-md-4">
 							<img src="';
-							echo $cabin->getThumbnail()->getPath();
+							//echo $cabin->getThumbnail()->getPath();
+							echo reset($cabin->getImages())->getPath();
 							echo '" class="img-responsive imageDisplayed" alt="';
 							echo $cabin->getThumbnail()->getAlternateText();
 							echo'">

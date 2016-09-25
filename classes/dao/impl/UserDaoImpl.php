@@ -29,6 +29,17 @@ class UserDaoImpl implements UserDao {
 	                   WHERE USER_NAME= ':userName' 
 		                 AND USER_PASSWORD=':password'";
 
+	const GET_USER_BY_ID = "SELECT USER_ID, USER_NAME, USER_LAST_NAME, ROLE_NAME,
+	                        	   USER_PASSWORD, USER_EMAIL, USER_ADDRESS
+                        	  FROM USERS 
+                   		 LEFT JOIN ROLES
+	                     		ON USERS.USER_ROLE_ID = ROLES.ROLE_ID
+	                   		 WHERE USER_ID = ':userId'";
+
+	const GET_USER_ID = "SELECT USER_ID
+						   FROM USERS 
+						  WHERE USER_EMAIL= ':userEmail'";
+
 
 	private $dataBaseConnector;
 
@@ -96,4 +107,38 @@ class UserDaoImpl implements UserDao {
 
 		return $result;
 	}
+
+	public function getGuestId($userEmail) {
+
+		$parameters = array($userEmail);
+		$keys = array(':userEmail');
+
+		$rs = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(self::USER_EXISTS, $keys, $parameters)
+		);
+
+		while($row = $rs->fetch_assoc()) {
+			$result=$row{'USER_ID'};
+		}
+
+		return $result;
+	}
+
+	public function getUserById($userId) {
+
+		$rowMapper = new UserRowMapper();
+
+		$parameters = array($userId);
+		$keys = array(":userId");
+
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement($this::GET_USER_BY_ID, $keys, $parameters)
+		);
+
+		while ($row = $result->fetch_assoc()) {
+			$user = $rowMapper->map($row);
+		}
+		return $user;
+	}
+
 }

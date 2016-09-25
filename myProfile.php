@@ -1,9 +1,15 @@
+<?php
+
+if (!isset($_SESSION['user'])) {
+	header('Location: index.php');
+}
+?>
 <div class="row">
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<h2 class="bottomLine">Mi perfil</h2>
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6">
-		<img src="images/bosque.jpg" class="img-responsive imageDisplayed" alt="Playa">
+		<img src="images/bosque.jpg" class="img-responsive imageDisplayed" alt="Bosque">
 	</div>
 	<div class="col-xs-12 col-sm-6 col-md-6">
 		<form>

@@ -3,15 +3,16 @@
 * The controller to manage the reservations.
 */
 
-require_once('../dao/impl/ReservationsDaoImpl.php');
-require_once('../model/Reservation.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/services/impl/ReservationServiceImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/model/Reservation.php');
+
 class ReservationController {
 
-	private $reservationDao;
+	private $reservationService;
 
 	function __construct()
 	{
-		$this->setReservationDao(new ReservationsDaoImpl());
+		$this->setReservationService(new ReservationServiceImpl());
 	}
 
 	/**
@@ -19,7 +20,14 @@ class ReservationController {
 	*/
 	public function createReservation() {
 
-		$reservationId = $this->getReservationId();
+		session_start();
+
+		if(isset($_SESSION['user']) && !empty($_SESSION['user'])) {
+			$user = $_SESSION['user'];
+		} else {
+			$user = "";
+		}
+
 		$name = $_POST['userName'];
 		$lastName = $_POST['lastName'];
 		$arrivalDate = $_POST['arrivalDate'];
@@ -30,29 +38,25 @@ class ReservationController {
 		$email = $_POST['email'];
 		$details = $_POST['details'];
 
-		$reservation = new Reservation();
-		$reservation->setReservationId($reservationId);
-		//$reservation->setUser($newUser);
-		$reservation->setArrivalDate($arrivalDate);
-		$reservation->setDepartureDate($departureDate);
-		$reservation->setNumberOfPeople($people);
-		$reservation->setCabinId($cabinId);
-		$reservation->setAddress($address);
-		$reservation->setEmailAddress($email);
-		$reservation->setDetails($details);
-
-		$this->getReservationDao()->createReservation($reservation);
+		return $this->getReservationService()->createReservation($user, $name, $lastName, 
+			$arrivalDate, $departureDate, $people, $cabinId, $address, $email, $details);
 
 	}
 
 	/**
-	* Read reservation
+	* Return all reservations
 	*/
 	public function getAllReservations() {
 
+		$user = $_SESSION['user'];
+		return $this->getReservationService()->getReservations($user);
+
 	}
 	public function getReservation () {
-		$reservationId;
+
+		$reservationId = $_POST['reservationId'];
+		return $this->getReservationService()->getReservation($reservationId);
+
 	}
 
 	/**
@@ -76,17 +80,12 @@ class ReservationController {
 
 	}
 
-	private function getReservationId() {
-		//TODO: recuperar el ultimo id de la base de datos y devolver el siguiente, haciendolo autoincremental
-		return rand(1, 9999);
+
+	public function setReservationService($newReservationService) {
+		$this->reservationService = $newReservationService;
 	}
 
-
-	public function setReservationDao($newReservationDao) {
-		$this->reservationDao = $newReservationDao;
-	}
-
-	public function getReservationDao() {
-		return $this->reservationDao;
+	public function getReservationService() {
+		return $this->reservationService;
 	}
 }

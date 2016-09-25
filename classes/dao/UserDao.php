@@ -24,4 +24,14 @@ interface UserDao {
 	*/
 	public function userExists($userEmail);
 
+	/**
+	* Returns the id of the user based on its email.
+	*/
+	public function getGuestId($userEmail);
+
+	/**
+	* Returns the id of the user based on its id.
+	*/
+	public function getUserById($userId);
+
 }

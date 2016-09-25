@@ -10,20 +10,25 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/rowMapper/impl/ImageRowMapper.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/rowMapper/impl/ThumbnailRowMapper.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/rowMapper/impl/AmenityRowMapper.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/util/SQLUtils.php');
 
 class CabinsDaoImpl implements CabinsDao {
 
 	//Consntants
-	const SELECT_CABINS = 'SELECT CABIN_ID, CABIN_NAME, CABIN_DESCRIPTION, CABIN_MAX_OCCUPANCY FROM CABINS';
-	const WHERE_CABIN_ID = 'WHERE CABIN_ID=';
-	const SELECT_IMAGES ='SELECT IMAGE_ID, IMAGE_PATH, IMAGE_ALTERNATE_TEXT FROM IMAGES ';
-	const SELECT_THUMBNAIL ='SELECT THUMBNAIL_ID, THUMBNAIL_PATH, THUMBNAIL_ALTERNATE_TEXT FROM THUMBNAILS ';
-	const SELECT_AMENITIES = 'SELECT AMENITY_ID, AMENITY_TEXT FROM AMENITIES WHERE AMENITY_CABIN_ID=';
+	const SELECT_CABINS = 'SELECT CABIN_ID, CABIN_NAME, CABIN_DESCRIPTION, CABIN_MAX_OCCUPANCY 
+							 FROM CABINS ';
+	const WHERE_CABIN_ID = ' WHERE CABIN_ID=:cabinId';
+	const SELECT_IMAGES ='SELECT IMAGE_ID, IMAGE_PATH, IMAGE_ALTERNATE_TEXT 
+							FROM IMAGES ';
+	const SELECT_THUMBNAIL ='SELECT THUMBNAIL_ID, THUMBNAIL_PATH, THUMBNAIL_ALTERNATE_TEXT 
+							   FROM THUMBNAILS ';
+	const SELECT_AMENITIES = 'SELECT AMENITY_ID, AMENITY_TEXT 
+								FROM AMENITIES 
+							   WHERE AMENITY_CABIN_ID=:cabinId';
 	const ORDER_BY_AMENITY_ID = ' ORDER BY AMENITY_ID';
 
 	private $result;
 	private $dataBaseConnector;
-	private $cabins;
 
 	//Temporary constructor method
 	function __construct() {
@@ -49,29 +54,65 @@ class CabinsDaoImpl implements CabinsDao {
 		return $cabins;
 	}
 
-	public function getCAbinFromBackendById($cabinId) {
-		//TODO: This method has to be completed once the BBDD has been done
-		error_log($cabinId);
-		$cabin = $this->cabins[$cabinId];
+	public function getCabinFromBackendById($cabinId) {
+
+		$rowMapper = new CabinRowMapper();
+
+		$parameters = array($cabinId);
+		$keys = array(":cabinId");
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(
+				self::SELECT_CABINS.
+				self::WHERE_CABIN_ID, 
+				$keys, $parameters
+			)
+		);
+
+		while ($row = $result->fetch_assoc()) {
+			$cabin = $rowMapper->map($row);
+		}
+
 		return $cabin;
 	}
 
 	private function setThumbnailToCabin($cabin) {
-		$image = new Image();
+
 		$rowMapper = new ThumbnailRowMapper();
-		
-		$result = $this->dataBaseConnector->executeQuery(self::SELECT_THUMBNAIL.self::WHERE_CABIN_ID.$cabin->getId());
-		$row = $result->fetch_assoc();
-		
-		$image = $rowMapper->map($row);
-		
+
+		$parameters = array($cabin->getId());
+		$keys = array(":cabinId");
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(
+				self::SELECT_THUMBNAIL.
+				self::WHERE_CABIN_ID, 
+				$keys, $parameters
+			)
+		);
+
+		while ($row = $result->fetch_assoc()) {
+			$image = $rowMapper->map($row);
+		}
+
 		$cabin->setThumbnail($image);
+
 	}
 
 	private function setImagesToCabin($cabin) {
+
 		$images = array();
 		$rowMapper = new ImageRowMapper();
-		$result = $this->dataBaseConnector->executeQuery(self::SELECT_IMAGES.self::WHERE_CABIN_ID.$cabin->getId());
+
+		$parameters = array($cabin->getId());
+		$keys = array(":cabinId");
+
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(
+				self::SELECT_IMAGES.
+				self::WHERE_CABIN_ID, 
+				$keys, $parameters
+			)
+		);
+
 		while ($row = $result->fetch_assoc()) {
 			$image = $rowMapper->map($row);
 			$images[$image->getId()] = $image;
@@ -83,7 +124,18 @@ class CabinsDaoImpl implements CabinsDao {
 		$amenities = array();
 		$rowMapper = new AmenityRowMapper();
 		$i = 0;
-		$result = $this->dataBaseConnector->executeQuery(self::SELECT_AMENITIES.$cabin->getId().self::ORDER_BY_AMENITY_ID);
+		
+		$parameters = array($cabin->getId());
+		$keys = array(":cabinId");
+
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(
+				self::SELECT_AMENITIES.
+				self::ORDER_BY_AMENITY_ID, 
+				$keys, $parameters
+			)
+		);
+
 		while ($row = $result->fetch_assoc()) {
 			$amenity = $rowMapper->map($row);
 			$amenities[$i] = $amenity;

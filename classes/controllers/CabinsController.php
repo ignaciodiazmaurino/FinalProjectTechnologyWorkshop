@@ -3,33 +3,36 @@
 * Login controller class
 */
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/impl/CabinsDaoImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/services/impl/CabinsServiceImpl.php');
 
 class CabinsController {
 
-	private $dao;
+	private $service;
 
 	function __construct() {
-		$this->setDao(new CabinsDaoImpl());
+		$this->setService(new CabinsServiceImpl());
 	}
 
 	/**
-	* Return all cabins
+	* Returns all cabins.
 	*/
 	public function getCabins() {
-		return $this->getDao()->getCabinsFromBackend();
+		return $this->getService()->getCabins();
 	}
+	/**
+	* Return the cabin based on its id.
+	*/
 	public function getCabinById() {
 		$cabinId = $_POST['cabinId'];
-		$cabin = $this->getDao()->getCAbinFromBackendById($cabinId);
+		$cabin = $this->getService()->getCabinById($cabinId);
 		return json_encode($cabin);
 	}
 
-	public function setDao($newDao) {
-		$this->dao = $newDao;
+	public function setService($newService) {
+		$this->service = $newService;
 	}
-	public function getDao() {
-		return $this->dao;
+	public function getService() {
+		return $this->service;
 	}
 
 }
