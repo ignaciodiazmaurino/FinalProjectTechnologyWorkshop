@@ -55,8 +55,6 @@ class ReservationServiceImpl implements ReservationService {
 
 			$code = $this->getDao()->createReservation($reservation);
 
-			error_log("Code: ".$code);
-
 			if($code) {
 				$response['code'] = ReservationConstants::RESPONSE_201;
 				$response['message'] = 'Reservation created';

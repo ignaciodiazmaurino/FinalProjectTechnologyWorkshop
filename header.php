@@ -14,7 +14,6 @@
 
 			<?php
 			require_once('classes/model/Guest.php');
-			require_once('classes/model/Admin.php');
 			session_start();
 			if (isset($_SESSION['user'])) {
 

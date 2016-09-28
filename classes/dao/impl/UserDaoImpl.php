@@ -5,7 +5,6 @@
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/UserDao.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/rowMapper/impl/UserRowMapper.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/model/Guest.php');
-require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/model/Admin.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/util/SQLUtils.php');
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/util/DataBaseConnector.php');
 
@@ -40,6 +39,21 @@ class UserDaoImpl implements UserDao {
 						   FROM USERS 
 						  WHERE USER_EMAIL= ':userEmail'";
 
+	const REMOVE_USER = "DELETE FROM USERS 
+							  WHERE USER_ID = :userId";
+
+	const UPDATE_USER = "UPDATE USERS 
+							SET USER_NAME = ':userName', 
+						   		USER_LAST_NAME = ':userLastName',
+								USER_EMAIL = ':userEmail',
+								USER_ADDRESS = ':userAddress',
+								USER_PASSWORD = ':userPassword'
+						  WHERE USER_ID = :userId";
+
+	const CHECK_PASSWORD = "SELECT COUNT(*) AS total
+							  FROM USERS 
+							 WHERE USER_ID = :userId
+							   AND USER_PASSWORD = :userPassword";
 
 	private $dataBaseConnector;
 
@@ -57,10 +71,14 @@ class UserDaoImpl implements UserDao {
 		$keys = array(":userName",":password");
 
 		$result = $this->dataBaseConnector->executeQuery(SQLUtils::buildSqlStatement($this::GET_USER, $keys, $parameters));
-
-		while ($row = $result->fetch_assoc()) {
-			$user = $rowMapper->map($row);
+		if ($result) {
+			while ($row = $result->fetch_assoc()) {
+				$user = $rowMapper->map($row);
+			}
+		} else {
+			$user ='';
 		}
+		
 		return $user;
 	}
 
@@ -88,8 +106,30 @@ class UserDaoImpl implements UserDao {
 
 	}
 
-	public function modifyUser($userId, $userName, $userLastName, $userEmail, $userAddress, $userPassword) {
-		//TODO: develop the body of the method.
+	public function modifyUser($user, $userId) {
+
+		$parameters = array(
+			$user->getName(),
+			$user->getLastName(),
+			$user->getEmail(),
+			$user->getAddress(),
+			$user->getPassword(),
+			$userId
+		);
+
+		$keys = array(
+			':userName',
+			':userLastName',
+			':userEmail',
+			':userAddress',
+			':userPassword',
+			':userId');
+
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement($this::UPDATE_USER, $keys, $parameters)
+		);
+		return $result;
+		
 	}
 
 	public function userExists($userEmail) {
@@ -139,6 +179,29 @@ class UserDaoImpl implements UserDao {
 			$user = $rowMapper->map($row);
 		}
 		return $user;
+	}
+
+	public function removeUser($userId) {
+		$parameters = array($userId);
+		$keys = array(':userId');
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement($this::REMOVE_USER, $keys, $parameters)
+		);
+		return $result;
+	}
+
+	public function checkPassword($userId, $password) {
+
+		$parameters = array($userId, $password);
+		$keys = array(':userId', ':userPassword');
+		$rs = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement($this::CHECK_PASSWORD, $keys, $parameters)
+		);
+
+		while($row = $rs->fetch_assoc()) {
+			$result=$row{'total'};
+		}
+		return $result;
 	}
 
 }

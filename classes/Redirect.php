@@ -93,7 +93,7 @@ class Redirect {
 		$myProfilePage->setTitle('La Cabaña');
 		$myProfilePage->setPageBody('myProfile');
 		$myProfilePage->setMenuOptions($menuOptions);
-		$scripts = Array();
+		$scripts = Array('myProfile');
 		$myProfilePage->setScripts($scripts);
 		$styles = Array();
 		$myProfilePage->setStyles($styles);
