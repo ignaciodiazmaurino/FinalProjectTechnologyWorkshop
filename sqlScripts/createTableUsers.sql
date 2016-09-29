@@ -14,4 +14,4 @@ CREATE TABLE `reservations_db`.`USERS` (
     FOREIGN KEY (`USER_ROLE_ID`)
     REFERENCES `reservations_db`.`ROLES` (`ROLE_ID`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+    ON UPDATE CASCADE);

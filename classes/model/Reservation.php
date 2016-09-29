@@ -3,6 +3,8 @@ class Reservation  implements JsonSerializable {
 
 	private $reservationId;
 	private $guestId;
+	private $guestName;
+	private $guestLastName;
 	private $userId;
 	private $arrivalDate;
 	private $departureDate;
@@ -25,6 +27,20 @@ class Reservation  implements JsonSerializable {
 	}
 	public function getGuestId() {
 		return $this->guestId;
+	}
+
+	public function setGuestName($newGuestName) {
+		$this->guestName = $newGuestName;
+	}
+	public function getGuestName() {
+		return $this->guestName;
+	}
+
+	public function setGuestLastName($newGuestLastName) {
+		$this->guestLastName = $newGuestLastName;
+	}
+	public function getGuestLastName() {
+		return $this->guestLastName;
 	}
 
 	public function setUserId($newUserId) {

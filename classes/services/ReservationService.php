@@ -20,4 +20,9 @@ interface ReservationService {
 	*/
 	public function getReservations($user);
 
+	/**
+	* Update reservation
+	*/
+	public function updateReservation($reservationId, $arrivalDate, $departureDate);
+
 }

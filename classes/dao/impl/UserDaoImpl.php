@@ -149,12 +149,12 @@ class UserDaoImpl implements UserDao {
 	}
 
 	public function getGuestId($userEmail) {
-
+	
 		$parameters = array($userEmail);
 		$keys = array(':userEmail');
 
 		$rs = $this->dataBaseConnector->executeQuery(
-			SQLUtils::buildSqlStatement(self::USER_EXISTS, $keys, $parameters)
+			SQLUtils::buildSqlStatement(self::GET_USER_ID, $keys, $parameters)
 		);
 
 		while($row = $rs->fetch_assoc()) {

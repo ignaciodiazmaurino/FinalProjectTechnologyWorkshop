@@ -44,6 +44,8 @@ class ReservationServiceImpl implements ReservationService {
 			$reservation = new Reservation();
 			$reservation->setGuestId($guestId);
 			$reservation->setUserId($user->getId());
+			$reservation->setGuestName($userName);
+			$reservation->setGuestLastName($userLastName);
 			$reservation->setCabinId($cabinId);
 			$reservation->setArrivalDate(date('Y-m-d', strtotime($arribalDate)));
 			$reservation->setDepartureDate(date('Y-m-d', strtotime($departureDate)));
@@ -115,6 +117,24 @@ class ReservationServiceImpl implements ReservationService {
 			$response['code'] = ReservationConstants::RESPONSE_202;
 		}
 		return $response;
+	}
+
+	public function updateReservation($reservationId, $arrivalDate, $departureDate) {
+		$response = array();
+
+		$code = $this->getDao()->updateReservation($reservationId, 
+			date('Y-m-d', strtotime($arrivalDate)), 
+			date('Y-m-d', strtotime($departureDate)));
+
+		if($code) {
+			$response['code'] = ReservationConstants::RESPONSE_202;
+			$response['message'] = 'Updated';
+		} else {
+			$response['code'] = ReservationConstants::RESPONSE_500;
+			$response['message'] = 'Error trying to update.';
+		}
+
+		return json_encode($response);
 	}
 
 	public function setDao($newDao) {

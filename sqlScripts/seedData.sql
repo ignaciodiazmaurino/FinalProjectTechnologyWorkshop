@@ -52,4 +52,11 @@ INSERT INTO USERS (USER_NAME, USER_LAST_NAME, USER_ROLE_ID, USER_PASSWORD, USER_
 		'sarasa',
 		'mail_test@test.com',
 		'Address test 123'
+	),
+	('Guest1',
+		'Guest1',
+		1,
+		'123456',
+		'mail_test@test.com',
+		'Address test 123'
 	);

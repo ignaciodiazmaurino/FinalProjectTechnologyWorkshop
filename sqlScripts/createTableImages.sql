@@ -11,4 +11,4 @@ CREATE TABLE `reservations_db`.`IMAGES` (
     FOREIGN KEY (`CABIN_ID`)
     REFERENCES `reservations_db`.`CABINS` (`CABIN_ID`)
     ON DELETE CASCADE
-    ON UPDATE NO ACTION);
+    ON UPDATE CASCADE);
