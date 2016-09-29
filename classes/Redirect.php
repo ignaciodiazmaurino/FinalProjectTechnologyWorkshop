@@ -75,9 +75,9 @@ class Redirect {
 		$reservationsPage->setTitle('La Cabaña');
 		$reservationsPage->setPageBody('reservations');
 		$reservationsPage->setMenuOptions($menuOptions);
-		$scripts = Array();
+		$scripts = Array('jquery-ui','modifyReservations');
 		$reservationsPage->setScripts($scripts);
-		$styles = Array();
+		$styles = Array('jquery-ui');
 		$reservationsPage->setStyles($styles);
 
 		$findReservationPage = new PageContext();
@@ -93,7 +93,7 @@ class Redirect {
 		$myProfilePage->setTitle('La Cabaña');
 		$myProfilePage->setPageBody('myProfile');
 		$myProfilePage->setMenuOptions($menuOptions);
-		$scripts = Array();
+		$scripts = Array('myProfile');
 		$myProfilePage->setScripts($scripts);
 		$styles = Array();
 		$myProfilePage->setStyles($styles);

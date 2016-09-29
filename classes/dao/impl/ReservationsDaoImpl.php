@@ -10,17 +10,18 @@ require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/
 
 class ReservationsDaoImpl implements ReservationsDao {
 
-	const INSERT_RESERVATION = "INSERT INTO RESERVATIONS (RESERVATION_GUEST_ID, 
-														  RESERVATION_USER_ID, RESERVATION_CABIN_ID, 
-														  RESERVATION_ARRIVAL_DATE, RESERVATION_DEPARTURE_DATE, 
-														  RESERVATION_STATE, RESERVATION_GUEST_EMAIL, 
-														  RESERVATION_GUEST_ADDRESS, RESERVATION_QUANTITY, 
-														  RESERVATION_DETAILS) 
-									 VALUES (:guestId, :userId, :cabinId, CAST(':arrivalDate' AS DATE),
+	const INSERT_RESERVATION = "INSERT INTO RESERVATIONS (RESERVATION_GUEST_ID, RESERVATION_USER_ID, 
+														  RESERVATION_GUEST_NAME, RESERVATION_GUEST_LASTNAME, 
+														  RESERVATION_CABIN_ID, RESERVATION_ARRIVAL_DATE, 
+														  RESERVATION_DEPARTURE_DATE, RESERVATION_STATE, 
+														  RESERVATION_GUEST_EMAIL, RESERVATION_GUEST_ADDRESS, 
+														  RESERVATION_QUANTITY, RESERVATION_DETAILS) 
+									 VALUES (:guestId, :userId, ':userName', ':userLastName', :cabinId, CAST(':arrivalDate' AS DATE),
 									 		CAST(':departureDate' AS DATE), ':status', ':email', ':address',
 									 		:people, ':details')";
 
 	const SELECT_RESERVATIONS = 'SELECT RESERVATION_ID, RESERVATION_GUEST_ID, 
+										RESERVATION_GUEST_NAME, RESERVATION_GUEST_LASTNAME, 
 									  	RESERVATION_USER_ID, RESERVATION_CABIN_ID, 
 									  	RESERVATION_ARRIVAL_DATE, RESERVATION_DEPARTURE_DATE, 
 									  	RESERVATION_STATE, RESERVATION_GUEST_EMAIL, 
@@ -28,7 +29,13 @@ class ReservationsDaoImpl implements ReservationsDao {
 									  	RESERVATION_DETAILS 
 								   FROM RESERVATIONS ';
 	const BY_ID = ' WHERE RESERVATION_ID=:reservationId';
+	
 	const BY_USERID = ' WHERE RESERVATION_GUEST_ID=:userId';
+
+	const UPDATE_RESERVATION = "UPDATE RESERVATIONS 
+								   SET RESERVATION_ARRIVAL_DATE = CAST(':arrivalDate' AS DATE), 
+									   RESERVATION_DEPARTURE_DATE = CAST(':departureDate' AS DATE)
+								 WHERE RESERVATION_ID = :reservationId";
 
 	private $dataBaseConnector;
 
@@ -48,6 +55,8 @@ class ReservationsDaoImpl implements ReservationsDao {
 			$reservation->getGuestId(),
 			$reservation->getUserId(),
 			$reservation->getCabinId(),
+			$reservation->getGuestName(),
+			$reservation->getGuestLastName(),
 			$reservation->getArrivalDate(),
 			$reservation->getDepartureDate(),
 			$reservation->getStatus(),
@@ -61,6 +70,8 @@ class ReservationsDaoImpl implements ReservationsDao {
 			":guestId",
 			":userId",
 			":cabinId",
+			':userName',
+			':userLastName',
 			":arrivalDate",
 			":departureDate",
 			":status",
@@ -137,8 +148,15 @@ class ReservationsDaoImpl implements ReservationsDao {
 		return $reservations;
 	}
 
-	public function updateReservation($data) {
+	public function updateReservation($reservationId, $arrivalDate, $departureDate) {
+		
+		$parameters = array($reservationId, $arrivalDate, $departureDate);
+		$keys = array(":reservationId", ":arrivalDate", ":departureDate");
 
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(self::UPDATE_RESERVATION, $keys, $parameters)
+		);
+		return $result;
 	}
 
 	public function deleteReservation($reservationID) {

@@ -63,23 +63,23 @@ class ReservationController {
 	* Update reservation
 	*/
 	public function updateReservation() {
-		
+
+		session_start();
+		$user = $_SESSION['user'];
+
+		$reservationId = $_POST['reservationId'];
+		$arrivalDate = $_POST['arrivalDate'];
+		$departureDate = $_POST['departureDate'];
+
+		return $this->getReservationService()->updateReservation($reservationId, $arrivalDate, $departureDate);
 	}
 
 	/**
 	* Delete reservation
 	*/
-	public function deleteReservation() {
+	public function cancelReservation() {
 
 	}
-
-	/**
-	* return the possible number of people.
-	*/
-	public function getPeople() {
-
-	}
-
 
 	public function setReservationService($newReservationService) {
 		$this->reservationService = $newReservationService;

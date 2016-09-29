@@ -36,6 +36,62 @@ class UserServiceImpl implements UserService {
 
 	}
 
+/*Para otros tipos de sentencias SQL, tales como INSERT, UPDATE, DELETE, DROP, etc, mysql_query()
+ devuelve TRUE en caso de éxito o FALSE en caso de error.*/
+	public function removeUser($user) {
+		
+		$response= array();
+		$dao = $this->getDaoImpl();
+		if ($user->getRole()== ReservationConstants::ADMIN) {
+			$response['code'] = ReservationConstants::RESPONSE_409;
+			$response['message'] = "The user can not be deleted";
+		} else {
+			$code = $dao->removeUser($user->getId());
+			if($code) {
+				$response['code'] = ReservationConstants::RESPONSE_202;
+				$response['message'] = 'Deletion successfully';
+				session_destroy();
+			} else {
+				$response['code'] = ReservationConstants::RESPONSE_404;
+				$response['message'] = 'The user does not exists in the database';
+			}
+		}
+		return $response;
+	}
+
+	public function updateUser($user, $newUser) {
+
+		$response= array();
+		$dao = $this->getDaoImpl();
+
+		if ($user->getRole()== ReservationConstants::ADMIN) {
+			$response['code'] = ReservationConstants::RESPONSE_409;
+			$response['message'] = "The user can not be updated.";
+		} else {
+			if ( 
+				$newUser->getName() == $user->getName() &&
+				$newUser->getLastName() == $user->getLastName() &&
+				$newUser->getEmail() == $user->getEmail() &&
+				$newUser->getAddress() == $user->getAddress() &&
+				$dao->checkPassword($user->getId(), $newUser->getPassword())
+			) {
+				$response['code'] = ReservationConstants::RESPONSE_304;
+				$response['message'] = "Nothing to update.";
+			} else {
+				$code = $dao->modifyUser($newUser, $user->getId());
+				if($code) {
+					$response['code'] = ReservationConstants::RESPONSE_202;
+					$response['message'] = 'Updated';
+				} else {
+					$response['code'] = ReservationConstants::RESPONSE_500;
+					$response['message'] = 'Error trying to update.';
+				}
+			}
+			
+		}
+		return $response;
+	}
+
 	public function setDaoImpl($newDaoImpl) {
 		$this->daoImpl = $newDaoImpl;
 	}

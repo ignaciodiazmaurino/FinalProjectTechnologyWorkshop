@@ -17,7 +17,7 @@ interface UserDao {
 	/**
 	* Update the data related to the user.
 	*/
-	public function modifyUser($userId, $userName, $userLastName, $userEmail, $userAddress, $userPassword);
+	public function modifyUser($user, $userId);
 
 	/**
 	* Returns true if the user exists based on the username and password.
@@ -33,5 +33,15 @@ interface UserDao {
 	* Returns the id of the user based on its id.
 	*/
 	public function getUserById($userId);
+
+	/**
+	* Remove a user based on the id pased by parameter.
+	*/
+	public function removeUser($userId);
+
+	/**
+	* Check if the password is the same than this one stored in the database.
+	*/
+	public function checkPassword($userId, $password);
 
 }

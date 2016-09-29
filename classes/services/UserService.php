@@ -7,6 +7,15 @@ interface UserService {
 	/**
 	* Validate and store the user into the database.
 	*/
-	function createUser($userName, $userLastName, $userEmail, $userAddress, $userPassword);
+	public function createUser($userName, $userLastName, $userEmail, $userAddress, $userPassword);
 
+	/**
+	* Remove the user by the id.
+	*/
+	public function removeUser($user);
+
+	/**
+	* Update user.
+	*/
+	public function updateUser($user, $newUser);
 }

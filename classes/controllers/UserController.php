@@ -1,7 +1,8 @@
 <?php
 
 require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/services/impl/UserServiceImpl.php');
-
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/controllers/LoginController.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/model/Guest.php');
 /**
 * User controller class
 */
@@ -28,9 +29,31 @@ class UserController {
 		return json_encode($response);
 
 	}
+	public function removeUser() {
+		session_start();
+		$user = $_SESSION['user'];
+		$response = $this->getUserService()->removeUser($user);
+		return json_encode($response);
+	}
+
+	public function updateUser() {
+
+		session_start();
+		$user = $_SESSION['user'];
+
+		$newUser = new Guest();
+		$newUser->setName($_POST['userName']);
+		$newUser->setLastName($_POST['lastName']);
+		$newUser->setEmail($_POST['email']);
+		$newUser->setAddress($_POST['address']);
+		$newUser->setPassword($_POST['password']);
+
+		$response = $this->getUserService()->updateUser($user, $newUser);
+		return json_encode($response);
+	}
 
 	public function setUserService($newService) {
-		$this->service = $newService;
+		$response = $this->service = $newService;
 	}
 
 	public function getUserService() {

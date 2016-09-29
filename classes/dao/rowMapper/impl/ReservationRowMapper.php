@@ -15,6 +15,8 @@ class ReservationRowMapper implements RowMapper
 
 		$reservation->setReservationId($row{'RESERVATION_ID'});
 		$reservation->setGuestId($row{'RESERVATION_GUEST_ID'});
+		$reservation->setGuestName($row{'RESERVATION_GUEST_NAME'});
+		$reservation->setGuestLastName($row{'RESERVATION_GUEST_LASTNAME'});
 		$reservation->setUserId($row{'RESERVATION_USER_ID'});
 		$reservation->setCabinId($row{'RESERVATION_CABIN_ID'});
 		$reservation->setArrivalDate($row{'RESERVATION_ARRIVAL_DATE'});

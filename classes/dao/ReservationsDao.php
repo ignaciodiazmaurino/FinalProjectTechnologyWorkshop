@@ -10,7 +10,7 @@ interface ReservationsDao {
 
 	public function getReservations();
 
-	public function updateReservation($data);
+	public function updateReservation($reservationId, $arrivalDate, $departureDate);
 
 	public function deleteReservation($reservationId);
 

@@ -13,7 +13,10 @@ class ReservationConstants {
 	const RESPONSE_201 = '201';
 	const RESPONSE_202 = '202';
 	const RESPONSE_204 = '204';
+
 	/* Responses 3xx */
+	const RESPONSE_304 = '304';
+
 	/* Responses 4xx */
 	const RESPONSE_400 = '400';
 	const RESPONSE_404 = '404';
