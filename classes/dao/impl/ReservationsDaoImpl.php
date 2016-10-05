@@ -34,7 +34,8 @@ class ReservationsDaoImpl implements ReservationsDao {
 
 	const UPDATE_RESERVATION = "UPDATE RESERVATIONS 
 								   SET RESERVATION_ARRIVAL_DATE = CAST(':arrivalDate' AS DATE), 
-									   RESERVATION_DEPARTURE_DATE = CAST(':departureDate' AS DATE)
+									   RESERVATION_DEPARTURE_DATE = CAST(':departureDate' AS DATE),
+									   RESERVATION_STATE = ':status'
 								 WHERE RESERVATION_ID = :reservationId";
 
 	private $dataBaseConnector;
@@ -101,6 +102,7 @@ class ReservationsDaoImpl implements ReservationsDao {
 				$keys, $parameters
 			)
 		);
+		$reservation = null;
 
 		while ($row = $result->fetch_assoc()) {
 			$reservation = $rowMapper->map($row);
@@ -148,10 +150,10 @@ class ReservationsDaoImpl implements ReservationsDao {
 		return $reservations;
 	}
 
-	public function updateReservation($reservationId, $arrivalDate, $departureDate) {
+	public function updateReservation($reservationId, $arrivalDate, $departureDate, $status) {
 		
-		$parameters = array($reservationId, $arrivalDate, $departureDate);
-		$keys = array(":reservationId", ":arrivalDate", ":departureDate");
+		$parameters = array($reservationId, $arrivalDate, $departureDate, $status);
+		$keys = array(":reservationId", ":arrivalDate", ":departureDate", ":status");
 
 		$result = $this->dataBaseConnector->executeQuery(
 			SQLUtils::buildSqlStatement(self::UPDATE_RESERVATION, $keys, $parameters)

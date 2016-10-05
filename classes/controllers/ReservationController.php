@@ -70,8 +70,9 @@ class ReservationController {
 		$reservationId = $_POST['reservationId'];
 		$arrivalDate = $_POST['arrivalDate'];
 		$departureDate = $_POST['departureDate'];
+		$status = $_POST['status'];
 
-		return $this->getReservationService()->updateReservation($reservationId, $arrivalDate, $departureDate);
+		return $this->getReservationService()->updateReservation($reservationId, $arrivalDate, $departureDate, $status);
 	}
 
 	/**

@@ -1,3 +1,4 @@
+$(".containerMainSection").addClass("minHeight");
 $(document).ready(function(){
 	$(".btnModClass").click(function(){
 		var reservationId = $(this).attr('name');
@@ -13,7 +14,6 @@ $(document).ready(function(){
 			}
 		).success(
 			function(data) {
-				alert(data);
 				var reservationData = JSON.parse(data);
 				switch (reservationData.code) {
 					case '200':
@@ -26,18 +26,28 @@ $(document).ready(function(){
 											'<div class="col-xs-12 col-sm-6 col-md-6">' +
 												'<div class="form-group">' +
 													'<label for="arrivalDateIenput">Fecha de llegada</label>' +
-													'<input type="text" class="form-control" id="arrivalDateIenput">' +
+													'<input type="text" class="form-control" id="arrivalDateIenput" value="' + reservationData.reservation.arrivalDate + '">' +
 												'</div>' +
 											'</div>' +
 											'<div class="col-xs-12 col-sm-6 col-md-6">' +
 												'<div class="form-group">' +
 													'<label for="departureDateIenput">Fecha de partida</label>' +
-													'<input type="text" class="form-control" id="departureDateIenput">' +
+													'<input type="text" class="form-control" id="departureDateIenput" value="' + reservationData.reservation.departureDate + '">' +
+												'</div>' +
+											'</div>' +
+										'</div>' +
+										'<div class="row">' +
+											'<div class="col-xs-12 col-sm-12 col-md-12">' +
+												'<div class="form-group">' +
+													'<select class="form-control" id="statusList">' +
+														'<option>ON_HOLD</option>' +
+														'<option>CANCELED</option>' +
+													'</select>' +
 												'</div>' +
 											'</div>' +
 										'</div>' +
 									'</div>' +
-								'</div>' +
+								'</form>' +
 							'</div>' +
 							'<div class="row">' +
 								'<div  class="col-xs-12 col-sm-12 col-md-12">' +
@@ -45,6 +55,13 @@ $(document).ready(function(){
 								'</div>' +
 							'</div>'
 						);
+						if (reservationData.guest.role === 'ADMINISTRATOR') {
+							$('#statusList').append('<option>CONFIRMED</option>');
+						}
+						
+						$("select option").filter(function() {
+							return $(this).text() == reservationData.guest.role; 
+							}).prop('selected', true);
 						$(this).openModalCustom("#modalModifyReservation");
 						$("#arrivalDateIenput").datepicker();
 						$("#departureDateIenput").datepicker();
@@ -56,6 +73,7 @@ $(document).ready(function(){
 									var arrivalDate = $('#arrivalDateIenput').val();
 									var departureDate = $('#departureDateIenput').val();
 									var reservationId = $('#idSpanReservation').text();
+									var status = $("#statusList").find(":selected").text();
 									$.ajax(
 										{
 											url: "classes/controllers/AjaxControllerHandler.php",
@@ -65,7 +83,8 @@ $(document).ready(function(){
 												controllerclass: 'ReservationController',
 												reservationId: reservationId,
 												arrivalDate: arrivalDate,
-												departureDate: departureDate
+												departureDate: departureDate,
+												status: status
 											}
 										}
 									).success(function(data) {
@@ -73,13 +92,27 @@ $(document).ready(function(){
 										switch (response.code) {
 											case '202':
 												$(document).openModalCustom("#modalModifyReservationResult");
-												$('#modalConfirmation').append('<p>Reserva modificada.</p>');
+												$('#modalConfirmation').append('<h2>Reserva modificada.</h2>');
+												$('#modalConfirmation').append('<p>' + response.code + " - " + response.message + '</p>');
+												$('#modalConfirmation').append('<button id="acceptModalModifyReservation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
+												break;
+											case '304':
+												$(document).openModalCustom("#modalModifyReservationResult");
+												$('#modalConfirmation').append('<h2>Nada para modificar.</h2>');
+												$('#modalConfirmation').append('<p>' + response.code + " - " + response.message + '</p>');
+												$('#modalConfirmation').append('<button id="acceptModalModifyReservation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 												break;
 											default:
 												$(document).openModalCustom("#modalModifyReservationResult");
-												$('#modalConfirmation').append('<p>Error al intentar guardar los datos</p>');
+												$('#modalConfirmation').append('<h2>Error al intentar guardar los datos</h2>');
+												$('#modalConfirmation').append('<p>' + response.code + " - " + response.message + '</p>');
+												$('#modalConfirmation').append('<button id="acceptModalModifyReservation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 												break;
 										}
+										$("#acceptModalModifyReservation").click(function(){
+											$(this).closeModalCustom("#modalModifyReservation");
+											location.reload();
+										});
 									});
 								}
 							}

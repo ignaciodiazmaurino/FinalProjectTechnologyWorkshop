@@ -3,15 +3,16 @@
 * Login controller class
 */
 
-require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/dao/impl/UserDaoImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/services/impl/UserServiceImpl.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/util/ReservationConstants.php');
 
 class LoginController {
 
-	private $daoImpl;
+	private $service;
 
 	function __construct()
 	{
-		$this->setDaoImpl(new UserDaoImpl());
+		$this->setService(new UserServiceImpl());
 	}
 
 	public function login() {
@@ -19,7 +20,7 @@ class LoginController {
 		$userName = $_POST['userName'];
 		$password = $_POST['password'];
 
-		$dao = $this->getDaoImpl();
+		$userService = $this->getService();
 
 		if (empty($userName) || empty($password)) {
 			$error = array(
@@ -29,17 +30,13 @@ class LoginController {
 			return $error;
 		}
 
-		$response = $dao->getUserFromBackend($userName, $password);
-		
-		if (!is_array($response)) {
+		$response = $userService->getUser($userName, $password);
+		/*if ($response['code'] == ReservationConstants::RESPONSE_200) {
 			session_start();
-			error_log("Antes de setear usuario en sesion");
-			$_SESSION['user']=$response;
-			error_log($_SESSION['user']->getName());
-			error_log("Despues de haber seteado el usuario en la sesion");
-		}
+			$_SESSION['user']=$user;
+		}*/
 
-		return json_encode($response);
+		return $response;
 		
 	}
 
@@ -66,12 +63,12 @@ class LoginController {
 
 	}
 
-	public function setDaoImpl($newDaoImpl) {
-		$this->daoImpl = $newDaoImpl;
+	public function setService($newService) {
+		$this->service = $newService;
 	}
 
-	public function getDaoImpl() {
-		return $this->daoImpl;
+	public function getService() {
+		return $this->service;
 	}
 
 }

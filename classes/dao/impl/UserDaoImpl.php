@@ -70,16 +70,21 @@ class UserDaoImpl implements UserDao {
 		$parameters = array($userName,$password);
 		$keys = array(":userName",":password");
 
-		$result = $this->dataBaseConnector->executeQuery(SQLUtils::buildSqlStatement($this::GET_USER, $keys, $parameters));
-		if ($result) {
-			while ($row = $result->fetch_assoc()) {
-				$user = $rowMapper->map($row);
+		try {
+			$result = $this->dataBaseConnector->executeQuery(SQLUtils::buildSqlStatement($this::GET_USER, $keys, $parameters));
+			if ($result) {
+				while ($row = $result->fetch_assoc()) {
+					$user = $rowMapper->map($row);
+				}
+			} else {
+				$user ='';
 			}
-		} else {
-			$user ='';
+			
+			return $user;
+		} catch (mysqli_sql_exception $e) {
+			throw $e;
+			
 		}
-		
-		return $user;
 	}
 
 	public function createUser($userName, $userLastName, $userEmail, $userAddress, $userPassword) {

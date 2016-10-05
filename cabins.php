@@ -11,7 +11,8 @@
 	$cabins = $controller->getCabins();
 
 	foreach ($cabins as $key => $cabin) {
-
+		$imagesArray = $cabin->getImages();
+		$thumbnailSrc = reset($imagesArray)->getPath();
 		echo '
 			<div class="row cabinRow">
 				<div class="col-xs-12 col-sm-12 col-md-12">
@@ -19,7 +20,7 @@
 						<div class="col-xs-12 col-sm-4 col-md-4">
 							<img src="';
 							//echo $cabin->getThumbnail()->getPath();
-							echo reset($cabin->getImages())->getPath();
+							echo $thumbnailSrc;
 							echo '" class="img-responsive imageDisplayed" alt="';
 							echo $cabin->getThumbnail()->getAlternateText();
 							echo'">

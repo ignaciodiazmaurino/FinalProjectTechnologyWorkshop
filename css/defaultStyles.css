@@ -119,4 +119,6 @@ body {
 	display:block;
 	margin:0 auto;
 }
-
+.minHeight {
+	min-height: 58%;
+}

@@ -6,7 +6,7 @@
 class DataBaseConnector {
 
 	function executeQuery($query) {
-		error_log($query);
+
 		$properties = parse_ini_file($_SERVER['DOCUMENT_ROOT'].'/FinalProjectTechnologyWorkshop/classes/properties/database.ini');
 
 		$hostname=$properties['hostname'];
@@ -14,7 +14,7 @@ class DataBaseConnector {
 		$password=$properties['password'];
 		$portNumber=$properties['portnumber'];
 		$database=$properties['database'];
-		
+
 		try {
 			//Connection to the database
 			$dbConnection = new mysqli($hostname, $username, $password, $database, $portNumber);
@@ -31,7 +31,6 @@ class DataBaseConnector {
 			return $result;
 
 		} catch (mysqli_sql_exception $e) {
-			echo 'There was an error trying to connect to the Data base. Please try again in a few minutes';
 			throw $e;
 			
 		}

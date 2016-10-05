@@ -20,21 +20,33 @@ $(document).ready(function(){
 				switch (response.code) {
 					case '202':
 						$(document).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>El usuario fue removido.</p>');
+						$('#modalMessage').append('<h2>El usuario fue removido.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					case '409':
 						$(this).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>El usuario no puede ser removido.</p>');
+						$('#modalMessage').append('<h2>El usuario no puede ser removido.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					case '404':
 						$(this).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>El usuario no existe.</p>');
+						$('#modalMessage').append('<h2>El usuario no existe.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					default:
 						$(this).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>Ocurrio un error inesperado.</p>');
+						$('#modalMessage').append('<h2>Ocurrio un error inesperado.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 				}
+				$("#acceptModalRemoveProfile").click(function(){
+					$(this).closeModalCustom("#modalRemoveProfile");
+					location.reload();
+				});
 			});
 		});
 		$('#changeProfile').click(function() {
@@ -64,22 +76,34 @@ $(document).ready(function(){
 				switch (response.code) {
 					case '202':
 						$(document).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>El usuario fue modificado.</p>');
+						$('#modalMessage').append('<h2>El usuario fue modificado.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						location.reload();
 						break;
 					case '304':
 						$(document).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>Nada que modificar.</p>');
+						$('#modalMessage').append('<h2>Nada que modificar.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					case '409':
 						$(document).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>El usuario no puede ser modificado <br>debido a su perfil.</p>');
+						$('#modalMessage').append('<h2>El usuario no puede ser modificado <br>debido a su perfil.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					case '500':
 						$(document).openModalCustom("#modalRemoveProfile");
-						$('#modalMessage').append('<p>Error al modificar.</p>');
+						$('#modalMessage').append('<h2>Error al modificar.</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalRemoveProfile" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 				}
+				$("#acceptModalRemoveProfile").click(function(){
+					$(this).closeModalCustom("#modalRemoveProfile");
+					location.reload();
+				});
 			});
 			}
 		});

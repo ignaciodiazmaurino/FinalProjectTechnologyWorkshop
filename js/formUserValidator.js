@@ -20,7 +20,6 @@ $(document).ready(function(){
 			{
 				url: "classes/controllers/AjaxControllerHandler.php",
 				type: "POST",
-				//dataType: "json"
 				data: {
 					action: "createUser",
 					controllerclass: 'UserController',
@@ -35,17 +34,19 @@ $(document).ready(function(){
 			var response = JSON.parse(response);
 			if(response.code != '201') {
 				$(this).openModalCustom("#modalNewUserConfirmation");
-				$('#modalMessage').append(
-					'<p>Ocurrio un error tratando de crear el usuario</br>'+
-					response.code + " - " + response.message +
-					'</p>');
+				$('#modalMessage').append('<h2>Ocurrio un error tratando de crear el usuario</h2>');
+				$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+				$('#modalMessage').append('<button id="acceptModalNewUserConfirmation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 			} else {
 				$(this).openModalCustom("#modalNewUserConfirmation");
-				$('#modalMessage').append('<p>El usuario se creo correctamente</br>'+
-					response.code + " - " + response.message +
-					'</p>');
+				$('#modalMessage').append('<h2>El usuario se creo correctamente</h2>');
+				$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+				$('#modalMessage').append('<button id="acceptModalNewUserConfirmation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 			}
-			
+			$("#acceptModalNewUserConfirmation").click(function(){
+				$(this).closeModalCustom("#modalNewUserConfirmation");
+				location.reload();
+			});
 		}).fail(function(){
 			$(this).getHttpError(jqXHR, textStatus, errorThrown);
 			return false;

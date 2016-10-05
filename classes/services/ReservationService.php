@@ -23,6 +23,6 @@ interface ReservationService {
 	/**
 	* Update reservation
 	*/
-	public function updateReservation($reservationId, $arrivalDate, $departureDate);
+	public function updateReservation($reservationId, $arrivalDate, $departureDate, $status);
 
 }

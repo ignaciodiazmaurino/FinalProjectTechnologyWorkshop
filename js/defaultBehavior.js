@@ -37,7 +37,9 @@ $(document).ready(function(){
 	});
 
 	//Valida el form del login
-	$("#submitLogin").click(function(){
+	$("#submitLogin").click(function(event){
+
+		event.preventDefault();
 		//Remueve los mensajes de error;
 		$(this).resetErrorMessages(["#userError","#passError"]);
 
@@ -70,12 +72,12 @@ $(document).ready(function(){
 				}
 			}
 		).success(
-			function(user){
-				//TODO: Definir que hacer aca
+			function(){
+				location.reload();
 			}
 		).fail(
-			function(){
-				$(this).getHttpError(jqXHR, textStatus, errorThrown);
+			function(data){
+				var response = JSON.parse(data);
 				return false;
 			}
 		);

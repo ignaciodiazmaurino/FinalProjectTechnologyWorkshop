@@ -19,7 +19,10 @@ $(document).ready(function(event){
 						$('#peopleSelection').append($('<option>', { value : i }).text(i));
 					};
 				}
-			);
+			).fail(function(jqXHR, textStatus, errorThrown){
+				$(this).getHttpError(jqXHR, textStatus, errorThrown);
+				return false;
+			});
 		},
 		createReservation : function() {
 
@@ -54,19 +57,29 @@ $(document).ready(function(event){
 				switch (response.code) {
 					case '201':
 						$(this).openModalCustom("#modalNewReservation");
-						$('#modalMessage').append('<p>La reserva se creo correctamente</p>');
+						$('#modalMessage').append('<h2>La reserva se creo correctamente</h2>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalNewReservation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 					case '407':
 						$(this).openModalCustom("#modalNewReservation");
 						$('#modalMessage').append('<p>Para poder hacer una reserva,<br>el usuario debe estar logeado</p>');
+						$('#modalMessage').append('<p>' + response.code + " - " + response.message + '</p>');
+						$('#modalMessage').append('<button id="acceptModalNewReservation" type="submit" class="btn defaultButton centered widthHalf">Aceptar</button>');
 						break;
 				}
+				$("#acceptModalNewReservation").click(function(){
+					$(this).closeModalCustom("#modalNewReservation");
+					location.reload();
+				});
 			}).fail(function(){
 				$(this).openModalCustom("#modalNewReservation");
 				$('#modalMessage').append('<p>Hubo un problema al realizar la solicitud. Por favor intente más tarde</p>');
+				$("#acceptModalNewReservation").click(function(){
+					$(this).closeModalCustom("#modalNewReservation");
+					location.reload();
+				});
 			});
-
-			alert(userName + " " + lastName + " " + arrivalDate + " " + departureDate + " " + people + " " + cabinId + " " + address + " " + email + " " + details);
 			return false;
 		}
 	}

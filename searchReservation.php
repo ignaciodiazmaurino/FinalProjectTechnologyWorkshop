@@ -1,3 +1,9 @@
+<?php
+
+if (!isset($_SESSION['user'])) {
+	header('Location: index.php');
+}
+?>
 <div class="row">
 	<div class="col-xs-12 col-sm-6 col-md-6">
 		<img src="images/cabin1.jpg" class="img-responsive" alt="Cabaña">

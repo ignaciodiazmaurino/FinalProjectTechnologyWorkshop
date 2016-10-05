@@ -92,6 +92,25 @@ class UserServiceImpl implements UserService {
 		return $response;
 	}
 
+	public function getUser($userName, $password){
+		error_log("-------------> service init");
+		$response= array();
+		$dao = $this->getDaoImpl();
+		try {
+			$user = $dao->getUserFromBackend($userName, $password);
+			$response['code'] = ReservationConstants::RESPONSE_200;
+			$response['message'] = 'Logged in';
+			session_start();
+			$_SESSION['user']=$user;
+		} catch (Exception $e) {
+			$response['code'] = ReservationConstants::RESPONSE_500;
+			$response['message'] = 'Internal server error - '.$e->getMessage();
+		}
+		error_log(json_encode($user));
+		error_log("-------------> service end");
+		return json_encode($response);
+	}
+
 	public function setDaoImpl($newDaoImpl) {
 		$this->daoImpl = $newDaoImpl;
 	}
