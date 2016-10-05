@@ -13,7 +13,7 @@ interface ReservationService {
 	/**
 	* Returns the reservation based on the reservationId passed by parameter.
 	*/
-	public function getReservation($reservationId);
+	public function getReservation($reservationId, $user);
 
 	/**
 	* Returns all the reservations.

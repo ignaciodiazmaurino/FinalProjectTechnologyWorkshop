@@ -8,6 +8,8 @@ interface ReservationsDao {
 
 	public function getReservation($reservationId);
 
+	public function getReservationGuest($reservationId, $userId);
+
 	public function getReservations();
 
 	public function updateReservation($reservationId, $arrivalDate, $departureDate, $status);

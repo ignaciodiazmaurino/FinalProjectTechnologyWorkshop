@@ -71,10 +71,17 @@ class ReservationServiceImpl implements ReservationService {
 
 	}
 
-	public function getReservation($reservationId) {
+	public function getReservation($reservationId, $user) {
+
 		$response = array();
 
-		$reservation = $this->getDao()->getReservation($reservationId);
+		if ($user->getRole() == ReservationConstants::ADMIN) {
+			$reservation = $this->getDao()->getReservation($reservationId);
+		} else {
+			$reservation = $this->getDao()->getReservationGuest($reservationId, $user->getId());
+		}
+
+		
 		if (null != $reservation) {
 			$guest = $this->getUserDao()->getUserById($reservation->getGuestId());
 			$cabin = $this->getCabinDao()->getCAbinFromBackendById($reservation->getCabinId());

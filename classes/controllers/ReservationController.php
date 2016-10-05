@@ -54,8 +54,10 @@ class ReservationController {
 	}
 	public function getReservation () {
 
+		session_start();
+		$user = $_SESSION['user'];
 		$reservationId = $_POST['reservationId'];
-		return $this->getReservationService()->getReservation($reservationId);
+		return $this->getReservationService()->getReservation($reservationId, $user);
 
 	}
 
@@ -73,13 +75,6 @@ class ReservationController {
 		$status = $_POST['status'];
 
 		return $this->getReservationService()->updateReservation($reservationId, $arrivalDate, $departureDate, $status);
-	}
-
-	/**
-	* Delete reservation
-	*/
-	public function cancelReservation() {
-
 	}
 
 	public function setReservationService($newReservationService) {

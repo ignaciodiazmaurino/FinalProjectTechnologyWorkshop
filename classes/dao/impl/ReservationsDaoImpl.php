@@ -32,6 +32,8 @@ class ReservationsDaoImpl implements ReservationsDao {
 	
 	const BY_USERID = ' WHERE RESERVATION_GUEST_ID=:userId';
 
+	const AND_USERID = ' AND RESERVATION_GUEST_ID=:userId';
+
 	const UPDATE_RESERVATION = "UPDATE RESERVATIONS 
 								   SET RESERVATION_ARRIVAL_DATE = CAST(':arrivalDate' AS DATE), 
 									   RESERVATION_DEPARTURE_DATE = CAST(':departureDate' AS DATE),
@@ -111,6 +113,59 @@ class ReservationsDaoImpl implements ReservationsDao {
 		return $reservation;
 
 	}
+
+	public function getReservationGuest($reservationId, $userId) {
+
+		$rowMapper = new ReservationRowMapper();
+
+		$parameters = array($reservationId, $userId);
+		$keys = array(":reservationId",':userId');
+		$result = $this->dataBaseConnector->executeQuery(
+			SQLUtils::buildSqlStatement(
+				self::SELECT_RESERVATIONS.
+				self::BY_ID.self::AND_USERID, 
+				$keys, $parameters
+			)
+		);
+		$reservation = null;
+
+		while ($row = $result->fetch_assoc()) {
+			$reservation = $rowMapper->map($row);
+		}
+
+		return $reservation;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 	public function getReservations() {
 		$reservations = array();
