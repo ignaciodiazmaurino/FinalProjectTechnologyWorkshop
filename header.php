@@ -16,7 +16,7 @@
 			if (isset($_SESSION['user'])) {
 
 				$user=$_SESSION['user'];
-				echo '<span id="idRegistrarse">';
+				echo '<span id="idRegistrarse_">';
 				echo $user->getName();
 				echo '</span> | <span id="idEntrar">Salir</span>';
 			

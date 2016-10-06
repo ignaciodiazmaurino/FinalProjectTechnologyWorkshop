@@ -63,7 +63,7 @@ echo		'</div>
 	</div>
 </div>';
 } else {
-	header('Location: index.php');
+	echo '<script> location.replace("index.php"); </script>';
 }
 ?>
 
