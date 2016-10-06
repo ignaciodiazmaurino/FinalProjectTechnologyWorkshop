@@ -136,37 +136,6 @@ class ReservationsDaoImpl implements ReservationsDao {
 		return $reservation;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	public function getReservations() {
 		$reservations = array();
 		$rowMapper = new ReservationRowMapper();
