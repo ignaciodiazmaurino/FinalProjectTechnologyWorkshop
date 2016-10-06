@@ -31,10 +31,6 @@ class LoginController {
 		}
 
 		$response = $userService->getUser($userName, $password);
-		/*if ($response['code'] == ReservationConstants::RESPONSE_200) {
-			session_start();
-			$_SESSION['user']=$user;
-		}*/
 
 		return $response;
 		

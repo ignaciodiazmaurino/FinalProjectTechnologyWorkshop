@@ -1,6 +1,5 @@
 $(document).ready(function(){
 	$("#submitUser").click(function(e){
-		//TODO: Validar password e email.
 
 		e.preventDefault();
 		var userName = $("#nameInput").val();

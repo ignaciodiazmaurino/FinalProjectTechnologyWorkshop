@@ -35,7 +35,16 @@
 
 					if ($(this).val() == '') {
 						$(this).after('<p class="errorForm">El campo no puede estar vacío</p>');
+					} else if ($(this).attr("type") == "email") {
+						var regex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
+						if (!regex.test($(this).val())) {
+							$(this).after('<p class="errorForm">El formato del mail no es válido.</p>');
+						}
+					} else if ($(this).is(":password") && $(this).val().length < 6) {
+						$(this).after('<p class="errorForm">La contraseña no puede ser menor' +
+						' de seis caracteres.</p>');
 					}
+
 				}
 			});
 			var errors = $(".errorForm");
