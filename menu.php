@@ -3,7 +3,7 @@
 		<div id="menuBar" class="navbar-collapse collapse">
 			<ul class="nav navbar-nav">
 
-				<?php 
+				<?php
 					$menuOptions = $page->getMenuOptions();
 					if (is_array($menuOptions)) {
 						foreach ($menuOptions as $key => $value) {

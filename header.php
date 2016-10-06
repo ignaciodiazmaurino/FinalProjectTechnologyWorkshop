@@ -13,8 +13,6 @@
 			<div id="login" class="headerlogin text-centered">
 
 			<?php
-			require_once('classes/model/Guest.php');
-			session_start();
 			if (isset($_SESSION['user'])) {
 
 				$user=$_SESSION['user'];
@@ -39,12 +37,12 @@
 		<form>
 			<div class="form-group">
 				<label for="userLoginForm">Usuario</label>
-				<input type="text" class="form-control" id="userLoginForm" placeholder="Usuario"value="Ignacio">
+				<input type="text" class="form-control" id="userLoginForm" placeholder="Usuario">
 				<div id="userError" class="errorMessage"></div>
 			</div>
 			<div class="form-group">
 				<label for="passwordLoginForm">Contraseña</label>
-				<input type="password" class="form-control" id="passwordLoginForm" placeholder="Contraseña" value="sarasa">
+				<input type="password" class="form-control" id="passwordLoginForm" placeholder="Contraseña">
 				<div id="passError" class="errorMessage"></div>
 			</div>
 			<div  class="form-group">

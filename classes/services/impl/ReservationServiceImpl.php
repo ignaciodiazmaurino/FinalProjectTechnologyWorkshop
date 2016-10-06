@@ -71,10 +71,17 @@ class ReservationServiceImpl implements ReservationService {
 
 	}
 
-	public function getReservation($reservationId) {
+	public function getReservation($reservationId, $user) {
+
 		$response = array();
 
-		$reservation = $this->getDao()->getReservation($reservationId);
+		if ($user->getRole() == ReservationConstants::ADMIN) {
+			$reservation = $this->getDao()->getReservation($reservationId);
+		} else {
+			$reservation = $this->getDao()->getReservationGuest($reservationId, $user->getId());
+		}
+
+		
 		if (null != $reservation) {
 			$guest = $this->getUserDao()->getUserById($reservation->getGuestId());
 			$cabin = $this->getCabinDao()->getCAbinFromBackendById($reservation->getCabinId());
@@ -119,19 +126,33 @@ class ReservationServiceImpl implements ReservationService {
 		return $response;
 	}
 
-	public function updateReservation($reservationId, $arrivalDate, $departureDate) {
+	public function updateReservation($reservationId, $arrivalDate, $departureDate, $status) {
 		$response = array();
 
-		$code = $this->getDao()->updateReservation($reservationId, 
-			date('Y-m-d', strtotime($arrivalDate)), 
-			date('Y-m-d', strtotime($departureDate)));
+		$reservation = $this->getDao()->getReservation($reservationId);
 
-		if($code) {
-			$response['code'] = ReservationConstants::RESPONSE_202;
-			$response['message'] = 'Updated';
+		if(
+			$reservation->getArrivalDate() != $arrivalDate ||
+			$reservation->getDepartureDate() != $departureDate ||
+			$reservation->getStatus() != $status
+		) {
+			$code = $this->getDao()->updateReservation($reservationId, 
+				date('Y-m-d', strtotime($arrivalDate)), 
+				date('Y-m-d', strtotime($departureDate)),
+				$status);
+
+			if($code) {
+				$response['code'] = ReservationConstants::RESPONSE_202;
+				$response['message'] = 'Updated';
+			} else {
+				$response['code'] = ReservationConstants::RESPONSE_500;
+				$response['message'] = 'Error trying to update.';
+			}
+
 		} else {
-			$response['code'] = ReservationConstants::RESPONSE_500;
-			$response['message'] = 'Error trying to update.';
+
+			$response['code'] = ReservationConstants::RESPONSE_304;
+			$response['message'] = 'Nothing to update.';
 		}
 
 		return json_encode($response);

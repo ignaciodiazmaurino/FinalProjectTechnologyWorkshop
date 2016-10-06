@@ -18,4 +18,10 @@ interface UserService {
 	* Update user.
 	*/
 	public function updateUser($user, $newUser);
+
+	/**
+	* Get user.
+	*/
+	public function getUser($userName, $password);
+
 }

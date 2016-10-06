@@ -1,3 +1,7 @@
+<?php
+	require_once('classes/model/Guest.php');
+	if(session_status()!=PHP_SESSION_ACTIVE) session_start();
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,6 +9,7 @@
 	<meta charset="<?php echo $page->getCharset(); ?>">
 	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/defaultStyles.css">
+	<link rel="icon" href="images/favicon.ico" type="image/x-icon">
 	<?php
 		foreach ($page->getStyles() as $key => $style) {
 			echo '<link rel="stylesheet" type="text/css" href="css/'.$style.'.css">';
